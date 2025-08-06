@@ -1,7 +1,7 @@
 const appId = "nuttys-ytmdesktop-widget";
 const appName = "nuttys YouTube Music Widget";
 const appVersion = "1.0.0";
-const baseURL = "http://nuttylmao.github.io/youtube-music-widget";
+const baseURL = window.location.origin + window.location.pathname.replace('/configure/', '').replace('/configure', '');
 
 let browserSourceURL = ""
 
