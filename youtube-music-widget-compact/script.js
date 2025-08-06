@@ -2,7 +2,7 @@
 // PARAMETRS //
 ///////////////
 
-const baseURL = "https://nuttylmao.github.io/youtube-music-widget";
+const baseURL = window.location.origin + window.location.pathname.replace('/index.html', '').replace('index.html', '').replace(/\/$/, '');
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
