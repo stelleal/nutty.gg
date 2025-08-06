@@ -66,11 +66,18 @@ async function RequestToken() {
 	{
 		const token = responseData.token;
 		console.debug(`Token: ${token}`);
+		console.debug(`Base URL: ${baseURL}`);
 		browserSourceURL = `${baseURL}?token=${token}`;
+		console.debug(`Browser Source URL: ${browserSourceURL}`);
 
 		// Enable the Copy URL Button
-		document.getElementById("copyURLButton").disabled = false;
-		document.getElementById("copyURLButton").innerText = "Click to copy URL";
+		const copyButton = document.getElementById("copyURLButton");
+		copyButton.disabled = false;
+		copyButton.innerText = "Click to copy URL";
+		copyButton.style.backgroundColor = "#ffffff";
+		copyButton.style.color = "#181818";
+		copyButton.style.opacity = "1";
+		copyButton.style.cursor = "pointer";
 
 		// Show the donation button
 		document.getElementById("authorizationCode").style.display = 'none';
@@ -84,17 +91,31 @@ async function RequestToken() {
 }
 
 function CopyToURL() {
-	navigator.clipboard.writeText(browserSourceURL);
+	console.debug(`Copying to clipboard: ${browserSourceURL}`);
 	
-	document.getElementById("copyURLButton").innerText = "Copied to clipboard";
-	document.getElementById("copyURLButton").style.backgroundColor = "#00dd63"
-	document.getElementById("copyURLButton").style.color = "#ffffff";
+	if (!browserSourceURL || browserSourceURL === "") {
+		console.error("Browser source URL is empty!");
+		document.getElementById("copyURLButton").innerText = "Error - URL empty";
+		document.getElementById("copyURLButton").style.backgroundColor = "#ff0000";
+		return;
+	}
+	
+	navigator.clipboard.writeText(browserSourceURL).then(() => {
+		console.debug("URL copied successfully");
+		document.getElementById("copyURLButton").innerText = "Copied to clipboard";
+		document.getElementById("copyURLButton").style.backgroundColor = "#00dd63"
+		document.getElementById("copyURLButton").style.color = "#ffffff";
 
-	setTimeout(() => {
-		document.getElementById("copyURLButton").innerText = "Click to copy URL";
-		document.getElementById("copyURLButton").style.backgroundColor = "#ffffff";
-		document.getElementById("copyURLButton").style.color = "#181818";
-	}, 3000);
+		setTimeout(() => {
+			document.getElementById("copyURLButton").innerText = "Click to copy URL";
+			document.getElementById("copyURLButton").style.backgroundColor = "#ffffff";
+			document.getElementById("copyURLButton").style.color = "#181818";
+		}, 3000);
+	}).catch(err => {
+		console.error('Failed to copy URL: ', err);
+		document.getElementById("copyURLButton").innerText = "Copy failed";
+		document.getElementById("copyURLButton").style.backgroundColor = "#ff0000";
+	});
 }
 
 function OpenInstructions() {
