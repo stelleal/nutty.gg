@@ -9,6 +9,7 @@ const urlParams = new URLSearchParams(queryString);
 const token = urlParams.get("token") || "";
 const visibilityDuration = urlParams.get("duration") || 0;
 const hideAlbumArt = urlParams.has("hideAlbumArt");
+const compactMode = urlParams.has("compact");
 
 
 /////////////////
@@ -61,8 +62,13 @@ function UpdatePlayer(state) {
 		const songInfo = state.video;
 		const thumbnail = songInfo.thumbnails[songInfo.thumbnails.length - 1].url;
 		console.debug(thumbnail);
-		UpdateAlbumArt(document.getElementById("albumArt"), thumbnail);
+		if (!compactMode) {
+			UpdateAlbumArt(document.getElementById("albumArt"), thumbnail);
+		}
 		UpdateAlbumArt(document.getElementById("backgroundImage"), thumbnail);
+		if (compactMode) {
+			UpdateAlbumArt(document.getElementById("backgroundImageBack"), thumbnail);
+		}
 
 		// Set song info
 		console.debug(`Artist: ${songInfo.author}`);
@@ -108,9 +114,14 @@ function UpdatePlayer(state) {
 	const duration = ConvertSecondsToMinutesSoThatItLooksBetterOnTheOverlay(songInfo.durationSeconds - state.player.videoProgress);
 	console.debug(`Progress: ${progressTime}`);
 	console.debug(`Duration: ${duration}`);
-	document.getElementById("progressBar").style.width = `${progress}%`;
-	document.getElementById("progressTime").innerHTML = progressTime;
-	document.getElementById("duration").innerHTML = `-${duration}`;
+	
+	if (compactMode) {
+		document.getElementById("backgroundImage").style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
+	} else {
+		document.getElementById("progressBar").style.width = `${progress}%`;
+		document.getElementById("progressTime").innerHTML = progressTime;
+		document.getElementById("duration").innerHTML = `-${duration}`;
+	}
 
 }
 
@@ -218,7 +229,35 @@ function resize() {
 //   HIDE THE ALBUM ART, BECAUSE THAT'S WHAT IT'S SUPPOSED TO DO   //
 /////////////////////////////////////////////////////////////////////
 
-if (hideAlbumArt) {
+// Handle compact mode or hideAlbumArt
+if (compactMode) {
+	// Compact mode setup
+	document.documentElement.style.setProperty('--album-art-size', '50px');
+	document.getElementById("albumArtBox").style.display = "none";
+	document.getElementById("songInfoBox").style.width = "calc(100%)";
+	document.getElementById("mainContainer").style.maxWidth = "400px";
+	document.getElementById("times").style.display = "none";
+	document.getElementById("progressBg").style.display = "none";
+	document.getElementById("artistLabel").style.textAlign = "center";
+	document.getElementById("songLabel").style.textAlign = "center";
+	document.getElementById("songLabel").style.fontSize = "18px";
+	
+	// Apply compact background image styles
+	document.getElementById("backgroundImage").style.filter = "blur(5px) saturate(1.5) brightness(1.1)";
+	document.getElementById("backgroundImage").style.width = "100%";
+	document.getElementById("backgroundImage").style.height = "100%";
+	document.getElementById("backgroundImage").style.objectFit = "cover";
+	document.getElementById("backgroundImage").style.transition = "clip-path 0.3s ease-in-out";
+	document.getElementById("backgroundImage").style.zIndex = "2";
+	
+	document.getElementById("backgroundImageBack").style.filter = "blur(5px) grayscale(100%) brightness(0.1)";
+	document.getElementById("backgroundImageBack").style.opacity = "0.6";
+	document.getElementById("backgroundImageBack").style.width = "100%";
+	document.getElementById("backgroundImageBack").style.height = "100%";
+	document.getElementById("backgroundImageBack").style.objectFit = "cover";
+	document.getElementById("backgroundImageBack").style.zIndex = "1";
+	
+} else if (hideAlbumArt) {
 	document.getElementById("albumArtBox").style.display = "none";
 	document.getElementById("songInfoBox").style.width = "calc(100% - 20px)";
 }
