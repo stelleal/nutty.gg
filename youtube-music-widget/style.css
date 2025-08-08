@@ -197,7 +197,7 @@ body {
 	border-radius: 4px;
 	background-color: var(--bg-borders);
 	position: relative;
-	overflow: hidden;
+	overflow: visible;
 	z-index: 5;
 }
 
@@ -255,4 +255,65 @@ body {
 		opacity: 1; 
 		transform: translateY(0); 
 	}
+}
+
+/* CRT Effects - Applied to specific widget elements */
+.crt-scanlines::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: repeating-linear-gradient(
+		0deg,
+		transparent,
+		transparent 2px,
+		rgba(255, 0, 76, 0.03) 2px,
+		rgba(0, 255, 255, 0.03) 4px
+	);
+	pointer-events: none;
+	z-index: 10;
+	border-radius: var(--corner-radius);
+}
+
+.crt-scanlines::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(
+		ellipse at center,
+		transparent 30%,
+		rgba(0, 0, 0, 0.1) 100%
+	);
+	pointer-events: none;
+	z-index: 11;
+	border-radius: var(--corner-radius);
+}
+
+@keyframes crt-flicker {
+	0% { opacity: 1; }
+	98% { opacity: 1; }
+	99% { opacity: 0.96; }
+	100% { opacity: 0.92; }
+}
+
+@keyframes crt-random-flicker {
+	0% { opacity: 1; }
+	93% { opacity: 1; }
+	94% { opacity: 0.94; }
+	95% { opacity: 1; }
+	96% { opacity: 0.90; }
+	97% { opacity: 1; }
+	98% { opacity: 0.97; }
+	99% { opacity: 1; }
+	100% { opacity: 0.95; }
+}
+
+
+.crt-flicker {
+	animation: crt-random-flicker 4s infinite, crt-flicker 0.5s infinite linear alternate;
 }

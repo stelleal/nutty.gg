@@ -10,6 +10,8 @@ const token = urlParams.get("token") || "";
 const visibilityDuration = urlParams.get("duration") || 0;
 const hideAlbumArt = urlParams.has("hideAlbumArt");
 const compactMode = urlParams.has("compact");
+const testMode = urlParams.has("test");
+const crtEffect = urlParams.has("crtEffect");
 
 
 /////////////////
@@ -262,9 +264,31 @@ if (compactMode) {
 	document.getElementById("songInfoBox").style.width = "calc(100% - 20px)";
 }
 
-if (token == "") {
+// Apply CRT effect if enabled
+if (crtEffect) {
+	// Apply CRT effects to widget elements
+	const albumArtBox = document.getElementById("albumArtBox");
+	const songInfoBox = document.getElementById("songInfoBox");
+	
+	if (albumArtBox && !compactMode) {
+		albumArtBox.classList.add("crt-scanlines", "crt-flicker");
+	}
+	
+	if (songInfoBox) {
+		songInfoBox.classList.add("crt-scanlines", "crt-flicker");
+	}
+	
+	console.log("CRT effect enabled on widget elements");
+}
+
+if (token == "" && !testMode) {
 	console.log("No token detected...");
 	window.open(`${baseURL}/configure`);
+}
+else if (testMode) {
+	console.log("Test mode - showing widget with placeholder data");
+	document.getElementById("mainContainer").style.opacity = "1";
+	document.getElementById("mainContainer").style.bottom = "50%";
 }
 else
 	connectws();
