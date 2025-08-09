@@ -9,6 +9,32 @@
 			"group": ""
 		},
 		{
+			"id": "testPlatform",
+			"label": "Test Platform",
+			"description": "Choose platform style for test alert",
+			"type": "select",
+			"options": [
+				{
+					"value": "twitch",
+					"label": "Twitch"
+				},
+				{
+					"value": "youtube",
+					"label": "YouTube"
+				},
+				{
+					"value": "kick",
+					"label": "Kick"
+				},
+				{
+					"value": "kofi",
+					"label": "Ko-fi"
+				}
+			],
+			"defaultValue": "twitch",
+			"group": ""
+		},
+		{
 			"id": "showAvatar",
 			"label": "Show Avatar",
 			"description": "",
@@ -91,6 +117,14 @@
 				}
 			],
 			"defaultValue": "left",
+			"group": "Appearance"
+		},
+		{
+			"id": "enableCrtEffect",
+			"label": "Enable CRT Effect",
+			"description": "Apply nostalgic CRT screen effects with scanlines and flickering",
+			"type": "checkbox",
+			"defaultValue": false,
 			"group": "Appearance"
 		},
 		{

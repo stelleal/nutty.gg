@@ -47,6 +47,9 @@ const background = urlParams.get("background") || "#000000";
 const opacity = urlParams.get("opacity") || "0.85";
 const textAlignment = urlParams.get("textAlignment") || "left";
 const alignment = urlParams.get("alignment") || "";
+const enableCrtEffect = GetBooleanParam("enableCrtEffect", false);
+const testPlatform = urlParams.get("testPlatform") || "twitch";
+console.log("CRT Effect enabled:", enableCrtEffect);
 
 // General
 const hideAfter = GetIntParam("hideAfter", 8);
@@ -147,6 +150,8 @@ switch (alignment)
 		mainContainer.style.justifyContent = 'flex-end';
 		break;
 }
+
+// CRT effects are now applied dynamically in UpdateAlertBox function
 
 
 
@@ -1580,6 +1585,12 @@ function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attrib
 		alertBox.classList.add('customBackground');
 	else
 		alertBox.classList.add(platform);
+	
+	// Apply CRT effects if enabled
+	if (enableCrtEffect) {
+		console.log("Applying CRT effect to alertBox");
+		alertBox.classList.add('crt-scanlines', 'crt-flicker');
+	}
 
 	// Render avatars
 	if (showAvatar) {
@@ -1757,15 +1768,53 @@ function CalculateKickSubBadge(months) {
 
 async function testWidget()
 {
+	// Define different test content based on platform
+	const platformTests = {
+		'twitch': {
+			username: 'nutty',
+			description: 'subscribed with Tier 3',
+			attribute: '',
+			message: 'Thanks for the support! PogChamp'
+		},
+		'youtube': {
+			username: 'nutty',
+			description: 'sent a Super Chat ($5.00)',
+			attribute: '',
+			message: 'Love the stream! Keep it up!'
+		},
+		'kick': {
+			username: 'nutty',
+			description: 'just subscribed!',
+			attribute: '1 month',
+			message: 'First time subscriber, loving the content!'
+		},
+		'kofi': {
+			username: 'nutty',
+			description: 'donated $3.00',
+			attribute: '',
+			message: 'Keep up the great work!'
+		}
+	};
+
+	const testData = platformTests[testPlatform] || platformTests['twitch'];
+	
+	// Get avatar based on platform
+	let avatarURL = '';
+	if (testPlatform === 'twitch' || testPlatform === 'kick') {
+		avatarURL = await GetAvatar(testData.username, testPlatform);
+	} else {
+		// For platforms without avatar API, use platform icon
+		avatarURL = `icons/platforms/${testPlatform}.png`;
+	}
+
 	UpdateAlertBox(
-		'twitch',
-		await GetAvatar('nutty', 'twitch'),
-		`nutty`,
-		`subscribed with Tier 3`,
-		'',
-		`nutty`,
-		`O-oooooooooo AAAAE-A-A-I-A-U- JO-oooooooooooo AAE-O-A-A-U-U-A- E-eee-ee-eee AAAAE-A-E-I-E-A-JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA`
-		//``
+		testPlatform,
+		avatarURL,
+		testData.username,
+		testData.description,
+		testData.attribute,
+		testData.username,
+		testData.message
 	);
 }
 

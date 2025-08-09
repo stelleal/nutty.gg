@@ -1,8 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 * {
 	margin: 0;
 	padding: 0;
 	--margin: 0.5em;
 	--border-radius: 1em;
+	--corner-radius: 4px;
+	--bg-primary: #0f0f23;
+	--bg-secondary: #1a1a2e;
+	--bg-borders: #333366;
+	--accent-primary: #7aa3ff;
+	--text-primary: #cccccc;
+	--text-secondary: #888888;
+	--twitch-primary: #9146ff;
+	--youtube-primary: #ff4444;
+	--kick-primary: #66d9a3;
+	--kofi-primary: #ff6b9d;
 	/* font-size: 30px; */
 	/* --line-spacing: 1.7em; */
 }
@@ -16,24 +31,29 @@ html {
 	height: 100vh;
 	scroll-behavior: smooth;
 	/* background: #000000d9; */
-	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-	color: white;
+	font-family: 'JetBrains Mono', monospace;
+	color: var(--text-primary);
 	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 	overflow-wrap: break-word;
 }
 
 #statusContainer {
-	font-weight: 500;
+	font-family: 'Orbitron', monospace;
+	font-weight: 700;
 	font-size: 30px;
 	text-align: center;
-	background-color: #D12025;
-	color: white;
-	padding: 10px;
-	border-radius: 10px;
+	background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+	border: 2px solid var(--accent-primary);
+	color: var(--text-primary);
+	padding: 20px;
+	border-radius: var(--corner-radius);
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	opacity: 0;
+	text-shadow: 0 0 15px rgba(122, 163, 255, 0.8);
+	filter: drop-shadow(0px 0px 7px rgba(0, 0, 0, 1));
 }
 
 #mainContainer {
@@ -49,7 +69,7 @@ html {
 
 #alertBox {
 	padding: 0.5em;
-	border-radius: 0.75em;
+	border-radius: var(--corner-radius);
 	filter: drop-shadow(15px 15px 7px rgba(0, 0, 0, 1));
 	position: relative;
 	overflow: hidden;
@@ -104,23 +124,33 @@ html {
 }
 
 #username {
+	font-family: 'Space Mono', monospace;
 	font-size: 1.2em;
-	font-weight: 600;
+	font-weight: 700;
+	color: var(--accent-primary);
+	text-shadow: 0 0 10px rgba(122, 163, 255, 0.8);
 }
 
 #usernameTheSecond {
+	font-family: 'Space Mono', monospace;
 	font-size: 1em;
-	font-weight: 600;
+	font-weight: 700;
+	color: var(--accent-primary);
+	text-shadow: 0 0 10px rgba(122, 163, 255, 0.8);
 }
 
 #description {
+	font-family: 'JetBrains Mono', monospace;
 	font-size: 1em;
 	font-weight: 400;
+	color: var(--text-primary);
 }
 
 #attribute {
+	font-family: 'JetBrains Mono', monospace;
 	font-size: 0.8em;
 	font-weight: 400;
+	color: var(--text-secondary);
 }
 
 .profilePic {
@@ -151,6 +181,9 @@ html {
 	top: var(--margin);
 	transition: inherit;
 	font-style: italic;
+	font-family: 'JetBrains Mono', monospace;
+	color: var(--text-primary);
+	line-height: 1.4;
 }
 
 @keyframes fade-in {
@@ -304,7 +337,7 @@ html {
 }
 
 .youtube {
-	background: linear-gradient(#FF6C60BF, #FF0707BF) !important;
+	background: linear-gradient(#FF6C60BF, #ff4444BF) !important;
 }
 
 .kick {
@@ -324,7 +357,7 @@ html {
 }
 
 .kofi {
-	background: linear-gradient(#54c7eebf, #08c2ffbf) !important;
+	background: linear-gradient(#ff6b9dbf, #ff6b9dbf) !important;
 }
 
 .tipeeeStream {
@@ -387,4 +420,68 @@ html {
 	100% {
 		background-color: #D12025;
 	}
+}
+
+/* CRT Effects - Applied to specific widget elements */
+.crt-scanlines {
+	position: relative;
+}
+
+.crt-scanlines::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: repeating-linear-gradient(
+		0deg,
+		transparent,
+		transparent 2px,
+		rgba(255, 0, 76, 0.05) 2px,
+		rgba(0, 255, 255, 0.05) 4px
+	);
+	pointer-events: none;
+	z-index: 1000;
+	border-radius: var(--corner-radius);
+}
+
+.crt-scanlines::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(
+		ellipse at center,
+		transparent 30%,
+		rgba(0, 0, 0, 0.15) 100%
+	);
+	pointer-events: none;
+	z-index: 1001;
+	border-radius: var(--corner-radius);
+}
+
+@keyframes crt-flicker {
+	0% { opacity: 1; }
+	98% { opacity: 1; }
+	99% { opacity: 0.96; }
+	100% { opacity: 0.92; }
+}
+
+@keyframes crt-random-flicker {
+	0% { opacity: 1; }
+	93% { opacity: 1; }
+	94% { opacity: 0.94; }
+	95% { opacity: 1; }
+	96% { opacity: 0.90; }
+	97% { opacity: 1; }
+	98% { opacity: 0.97; }
+	99% { opacity: 1; }
+	100% { opacity: 0.95; }
+}
+
+.crt-flicker {
+	animation: crt-random-flicker 4s infinite, crt-flicker 0.5s infinite linear alternate;
 }
