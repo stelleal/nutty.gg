@@ -4,6 +4,21 @@ Uma coleção de widgets para streamers, projetados para uso como Browser Source
 
 ## Widgets Disponíveis
 
+### Multistream Alerts Widget
+
+Widget de alertas para múltiplas plataformas de streaming, incluindo follows, subs e donations.
+
+**Recursos:**
+- Suporte a Twitch, YouTube, Kick, Ko-fi e outras plataformas
+- Cores específicas por plataforma (Twitch: roxo, YouTube: vermelho, Kick: verde, Ko-fi: rosa)
+- Sistema robusto de avatares com fallbacks para falhas de API
+- Múltiplos tipos de alerta com backgrounds customizáveis
+
+**Configuração:**
+1. Configure o Streamer.bot para conectar via WebSocket
+2. Use os parâmetros `?address=127.0.0.1&port=8080` para conexão
+3. Adicione como Browser Source no OBS
+
 ### YouTube Music Widget
 
 Widget para exibir a música atualmente tocando no YouTube Music Desktop App.

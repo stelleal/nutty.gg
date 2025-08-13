@@ -68,9 +68,10 @@ html {
 }
 
 #alertBox {
+	background: linear-gradient(135deg, rgba(15, 15, 35, 0.9), rgba(26, 26, 46, 0.9));
 	padding: 0.5em;
 	border-radius: var(--corner-radius);
-	filter: drop-shadow(15px 15px 7px rgba(0, 0, 0, 1));
+	filter: drop-shadow(0px 5px 8px rgba(0, 0, 0, 1));
 	position: relative;
 	overflow: hidden;
 	opacity: 0;
@@ -158,7 +159,7 @@ html {
 }
 
 .square {
-	border-radius: 0.5em;
+	border-radius: var(--corner-radius);
 }
 
 .emote {
@@ -332,45 +333,69 @@ html {
 	background: linear-gradient(#9548ffBF, #fc74e6BF) !important;
 }
 
-.twitch {
-	background: linear-gradient(#6d5ca1bf, #9146ffBF) !important;
+.twitch #username,
+.twitch #usernameTheSecond {
+	color: var(--twitch-primary) !important;
+	text-shadow: 0 0 10px rgba(145, 70, 255, 0.8) !important;
 }
 
-.youtube {
-	background: linear-gradient(#FF6C60BF, #ff4444BF) !important;
+.youtube #username,
+.youtube #usernameTheSecond {
+	color: var(--youtube-primary) !important;
+	text-shadow: 0 0 10px rgba(255, 68, 68, 0.8) !important;
 }
 
-.kick {
-	background: linear-gradient(#53fc18BF, #005600BF) !important;
+.kick #username,
+.kick #usernameTheSecond {
+	color: var(--kick-primary) !important;
+	text-shadow: 0 0 10px rgba(102, 217, 163, 0.8) !important;
 }
 
-.streamlabs {
+/* .streamlabs {
 	background: linear-gradient(#73dabbbf, #397765bf) !important;
-}
+} */
 
-.streamelements {
+/* .streamelements {
 	background: linear-gradient(#263b8abf, #0a112abf) !important;
-}
+} */
 
-.patreon {
+/* .patreon {
 	background: linear-gradient(#c76633bf, #fd5e0abf) !important;
+} */
+
+.kofi #username,
+.kofi #usernameTheSecond {
+	color: var(--kofi-primary) !important;
+	text-shadow: 0 0 10px rgba(255, 107, 157, 0.8) !important;
 }
 
-.kofi {
-	background: linear-gradient(#ff6b9dbf, #ff6b9dbf) !important;
+.streamlabs #username,
+.streamlabs #usernameTheSecond,
+.streamelements #username,
+.streamelements #usernameTheSecond,
+.patreon #username,
+.patreon #usernameTheSecond,
+.tipeeeStream #username,
+.tipeeeStream #usernameTheSecond,
+.fourthwall #username,
+.fourthwall #usernameTheSecond,
+.tiktok #username,
+.tiktok #usernameTheSecond {
+	color: #7aa3ff !important;
+	text-shadow: 0 0 10px rgba(122, 163, 255, 0.8) !important;
 }
 
-.tipeeeStream {
+/* .tipeeeStream {
 	background: linear-gradient(#120e23bf, #5d192abf) !important;
-}
+} */
 
-.fourthwall {
+/* .fourthwall {
 	background: linear-gradient(#466edbbf, #1c56f5bf) !important;
-}
+} */
 
-.tiktok {
+/* .tiktok {
 	background: linear-gradient(#262626BF, #000000BF) !important;
-}
+} */
 
 .blank {
 	background: #adadad00 !important;
