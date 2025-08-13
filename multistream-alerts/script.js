@@ -449,7 +449,7 @@ async function TwitchFollow(data) {
 
 	// Set the text
 	const username = data.user_name;
-
+	console.log(data.displayName)
 	// Render avatars
 	const avatarURL = await GetAvatar(username, 'twitch');
 
@@ -457,12 +457,13 @@ async function TwitchFollow(data) {
 		'twitch',
 		avatarURL,
 		`${username}`,
-		`followed`,
+		`seguiu a live`,
 		``,
 		username,
 		``,
 		twitchFollowAction,
-		data
+		data,
+		'ts-user-joined-your-channel'
 	);
 }
 
@@ -512,12 +513,13 @@ async function TwitchCheer(data) {
 		'twitch',
 		avatarURL,
 		`${username}`,
-		`cheered ${bits} bits`,
+		`mandou x${bits} bits`,
 		'',
 		username,
 		message,
 		twitchCheerAction,
-		data
+		data,
+		'msn-message'
 	);
 }
 
@@ -527,8 +529,9 @@ async function TwitchSub(data) {
 
 	// Set the text
 	const username = data.user.name;
-	const subTier = data.sub_tier;
+	// const subTier = data.sub_tier; -- ${subTier.charAt(0)}
 	const isPrime = data.is_prime;
+	const message = data.text;
 
 	// Render avatars
 	const avatarURL = await GetAvatar(username, 'twitch');
@@ -538,24 +541,26 @@ async function TwitchSub(data) {
 			'twitch',
 			avatarURL,
 			`${username}`,
-			`subscribed with Tier ${subTier.charAt(0)}`,
+			`deu sub`,
 			'',
 			username,
-			'',
+			message,
 			twitchSubAction,
-			data
+			data,
+			'skype-call-sound'
 		);
 	else
 		UpdateAlertBox(
 			'twitch',
 			avatarURL,
 			`${username}`,
-			`used their Prime Sub`,
+			`deu sub com prime`,
 			'',
 			username,
-			'',
+			message,
 			twitchSubAction,
-			data
+			data,
+			'skype-call-sound'
 		);
 }
 
@@ -565,7 +570,7 @@ async function TwitchResub(data) {
 
 	// Set the text
 	const username = data.user.name;
-	const subTier = data.subTier;
+	// const subTier = data.subTier; -- ${subTier.charAt(0)}
 	const isPrime = data.isPrime;
 	const cumulativeMonths = data.cumulativeMonths;
 	const message = data.text;
@@ -578,24 +583,26 @@ async function TwitchResub(data) {
 			'twitch',
 			avatarURL,
 			`${username}`,
-			`resubscribed with Tier ${subTier.charAt(0)}`,
-			`${cumulativeMonths} months`,
+			`deu resub`,
+			`${cumulativeMonths} meses`,
 			username,
 			message,
 			twitchSubAction,
-			data
+			data,
+			'skype-call-sound'
 		);
 	else
 		UpdateAlertBox(
 			'twitch',
 			avatarURL,
 			`${username}`,
-			`used their Prime Sub`,
-			`${cumulativeMonths} months`,
+			`deu resub com prime`,
+			`${cumulativeMonths} meses`,
 			username,
 			message,
 			twitchSubAction,
-			data
+			data,
+			'skype-call-sound'
 		);
 }
 
@@ -605,7 +612,7 @@ async function TwitchGiftSub(data) {
 
 	// Set the text
 	const username = data.user.name;
-	const subTier = data.subTier;
+	// const subTier = data.subTier; -- ${subTier.charAt(0)}
 	const recipient = data.recipient.name;
 	const cumlativeTotal = data.cumlativeTotal;
 	const fromCommunitySubGift = data.fromCommunitySubGift;
@@ -619,18 +626,19 @@ async function TwitchGiftSub(data) {
 	
 	let messageText = '';
 	if (cumlativeTotal > 0)
-		messageText = `They've gifted ${cumlativeTotal} subs in total!`;
+		messageText = `acumulando ${cumlativeTotal} subs de presente`;
 
 	UpdateAlertBox(
 		'twitch',
 		avatarURL,
 		`${username}`,
-		`gifted a Tier ${subTier.charAt(0)} subscription`,
-		`to ${recipient}`,
+		`deu um sub`,
+		`para ${recipient}`,
 		username,
 		messageText,
 		twitchSubAction,
-		data
+		data,
+		'skype-call-sound'
 	);
 }
 
@@ -647,26 +655,41 @@ async function TwitchGiftBomb(data) {
 	const login = data.user.login;
 	const gifts = data.recipients.length;
 	const totalGifts = data.cumulative_total;
-	const subTier = data.sub_tier.charAt(0);
+	// const subTier = data.sub_tier.charAt(0); -- ${subTier}
 
 	// Render avatars
 	const avatarURL = await GetAvatar(login, 'twitch');
 
 	let message = ``;
 	if (totalGifts > 0)
-		message = `They've gifted ${totalGifts} subs in total!`;
+		message = `acumulando ${totalGifts} subs de presente`;
 
-	UpdateAlertBox(
-		'twitch',
-		avatarURL,
-		`${username}`,
-		`gifted ${gifts} Tier ${subTier} subs!`,
-		``,
-		username,
-		message,
-		twitchSubAction,
-		data
-	);
+	if (gifts > 1)
+		UpdateAlertBox(
+			'twitch',
+			avatarURL,
+			`${username}`,
+			`deu ${gifts} subs pra galera`,
+			``,
+			username,
+			message,
+			twitchSubAction,
+			data,
+			'skype-call-sound'
+		);
+	else
+		UpdateAlertBox(
+			'twitch',
+			avatarURL,
+			`${username}`,
+			`deu ${gifts} sub pra galera`,
+			``,
+			username,
+			message,
+			twitchSubAction,
+			data,
+			'skype-call-sound'
+		);
 }
 
 async function TwitchRewardRedemption(data) {
@@ -710,12 +733,13 @@ async function TwitchRaid(data) {
 		'twitch',
 		avatarURL,
 		`${username}`,
-		`is raiding with a party of ${viewers}`,
+		`invadiu com ${viewers} viewers`,
 		'',
 		username,
 		'',
 		twitchRaidAction,
-		data
+		data,
+		'msn-nudge'
 	);
 }
 
@@ -724,7 +748,7 @@ function YouTubeSuperChat(data) {
 		return;
 	
 	// Render avatars
-	const avatarURL = data.user.profileImageUrl;
+	const avatarURL = data.user.profileImageUrl || 'icons/default-pfp/default-pfp-youtube.png';
 
 	UpdateAlertBox(
 		'youtube',
@@ -764,7 +788,7 @@ function YouTubeNewSponsor(data) {
 		return;
 	
 	// Render avatars
-	const avatarURL = data.user.profileImageUrl;
+	const avatarURL = data.user.profileImageUrl || 'icons/default-pfp/default-pfp-youtube.png';
 
 	UpdateAlertBox(
 		'youtube',
@@ -784,7 +808,7 @@ function YouTubeGiftMembershipReceived(data) {
 		return;
 	
 	// Render avatars
-	const avatarURL = data.user.profileImageUrl;
+	const avatarURL = data.user.profileImageUrl || 'icons/default-pfp/default-pfp-youtube.png';
 
 	UpdateAlertBox(
 		'youtube',
@@ -984,8 +1008,6 @@ function KofiShopOrder(data) {
 
 	if (amount == 0)
 		formattedAmount = ""
-	else if (currency == "USD")
-		formattedAmount = `$${amount}`;
 	else
 		formattedAmount = `${currency} ${amount}`;
 	
@@ -1267,11 +1289,11 @@ async function KickSubscription(data) {
 	
 	let description = '';
 	if (months <= 1)
-		description = `just subscribed for the first time!`;
+		description = `deu sub`;
 	else
-		description = `resubscribed!`;
+		description = `deu resub`;
 
-	const attribute = `${months} months`;
+	const attribute = `${months} meses`;
 
 	// Render avatars
 	const avatarURL = await GetAvatar(username, 'kick');
@@ -1285,7 +1307,8 @@ async function KickSubscription(data) {
 		username,
 		'',
 		kickSubAction,
-		data
+		data,
+		'skype-call-sound'
 	);
 }
 
@@ -1302,11 +1325,11 @@ async function KickGiftedSubscriptions(data) {
 
 	if (giftedUsers.length <= 1)
 	{
-		description = `gifted a sub to`;
+		description = `deu um sub para`;
 		attribute = `${giftedUsers[0]}`;
 	}
 	else
-		description = `gifted ${giftedUsers.length} subscription${giftedUsers.length === 1 ? '' : 's'} to the community!`;
+		description = `deu ${giftedUsers.length} sub${giftedUsers.length === 1 ? '' : 's'} pra galera`;
 
 	// Render avatars
 	const avatarURL = await GetAvatar(gifter, 'kick');
@@ -1320,7 +1343,8 @@ async function KickGiftedSubscriptions(data) {
 		gifter,
 		'',
 		kickSubAction,
-		data
+		data,
+		'skype-call-sound'
 	);
 }
 
@@ -1363,12 +1387,13 @@ async function KickStreamHost(data) {
 		'kick',
 		avatarURL,
 		`${username}`,
-		`is raiding with a party of ${viewers}`,
+		`invadiu com ${viewers} viewers`,
 		'',
 		username,
 		'',
 		kickHostAction,
-		data
+		data,
+		'msn-nudge'
 	);
 }
 
@@ -1478,22 +1503,43 @@ async function GetAvatar(username, platform) {
 		case 'twitch':
 			{
 				console.debug(`No avatar found for ${username} (${platform}). Retrieving from Decapi.`)
-				let response = await fetch('https://decapi.me/twitch/avatar/' + username);
-				let data = await response.text();
-				avatarMap.set(`${username}-${platform}`, data);
-				return data;
+				try {
+					let response = await fetch('https://decapi.me/twitch/avatar/' + username);
+					if (!response.ok) {
+						throw new Error(`HTTP error ${response.status}`);
+					}
+					let data = await response.text();
+					avatarMap.set(`${username}-${platform}`, data);
+					return data;
+				} catch (error) {
+					console.error(`Failed to fetch Twitch avatar for ${username}:`, error.message);
+					const fallbackURL = 'icons/default-pfp/default-pfp-twitch.png';
+					avatarMap.set(`${username}-${platform}`, fallbackURL);
+					return fallbackURL;
+				}
 			}
 		case 'kick':
 			{
 				console.debug(`No avatar found for ${username} (${platform}). Retrieving from Kick.`)
-				let response = await fetch('https://kick.com/api/v2/channels/' + username);
-				console.log('https://kick.com/api/v2/channels/' + username)
-				let data = await response.json();
-				let avatarURL = data.user.profile_pic;
-				if (!avatarURL)
-					avatarURL = 'https://kick.com/img/default-profile-pictures/default2.jpeg';
-				avatarMap.set(`${username}-${platform}`, avatarURL);
-				return avatarURL;
+				try {
+					let response = await fetch('https://kick.com/api/v2/channels/' + username);
+					console.log('https://kick.com/api/v2/channels/' + username)
+					if (!response.ok) {
+						throw new Error(`HTTP error ${response.status}`);
+					}
+					let data = await response.json();
+					let avatarURL = data.user.profile_pic;
+					if (!avatarURL) {
+						avatarURL = 'icons/default-pfp/default-pfp-kick.png';
+					}
+					avatarMap.set(`${username}-${platform}`, avatarURL);
+					return avatarURL;
+				} catch (error) {
+					console.error(`Failed to fetch Kick avatar for ${username}:`, error.message);
+					const fallbackURL = 'icons/default-pfp/default-pfp-kick.png';
+					avatarMap.set(`${username}-${platform}`, fallbackURL);
+					return fallbackURL;
+				}
 			}
 	}
 }
@@ -1558,7 +1604,7 @@ function GetWinnersList(gifts) {
 	}
 }
 
-function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attributeText, username, message, sbAction, sbData) {
+function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attributeText, username, message, sbAction, sbData, soundFile) {
 	// If the page is inactive (e.g. the alert browser source is on an inactive OBS scene)
 	// don't run the alert
 	if (document.visibilityState != 'visible')
@@ -1581,10 +1627,9 @@ function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attrib
 
 	// Set the card background colors
 	alertBox.classList = '';
+	alertBox.classList.add(platform);
 	if (useCustomBackground)
 		alertBox.classList.add('customBackground');
-	else
-		alertBox.classList.add(platform);
 	
 	// Apply CRT effects if enabled
 	if (enableCrtEffect) {
@@ -1614,7 +1659,8 @@ function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attrib
 
 	// Play sound effect
 	if (playSounds) {
-		const audio = new Audio('sfx/notification.mp3');
+		const soundFileName = soundFile || 'notification';
+		const audio = new Audio(`sfx/${soundFileName}.mp3`);
 		audio.play();
 	}
 
@@ -1774,25 +1820,29 @@ async function testWidget()
 			username: 'nutty',
 			description: 'subscribed with Tier 3',
 			attribute: '',
-			message: 'Thanks for the support! PogChamp'
+			message: 'Thanks for the support! PogChamp',
+			audio: 'msn-message'
 		},
 		'youtube': {
 			username: 'nutty',
 			description: 'sent a Super Chat ($5.00)',
 			attribute: '',
-			message: 'Love the stream! Keep it up!'
+			message: 'Love the stream! Keep it up!',
+			audio: 'msn-nudge'
 		},
 		'kick': {
-			username: 'nutty',
+			username: 'clippyzin_bot',
 			description: 'just subscribed!',
 			attribute: '1 month',
-			message: 'First time subscriber, loving the content!'
+			message: 'First time subscriber, loving the content! Sit adipisicing esse eu amet esse ea minim aute commodo aliquip fugiat. Ipsum anim eiusmod exercitation amet proident nostrud tempor mollit.',
+			audio: 'skype-call-sound'
 		},
 		'kofi': {
 			username: 'nutty',
 			description: 'donated $3.00',
 			attribute: '',
-			message: 'Keep up the great work!'
+			message: 'Keep up the great work!',
+			audio: 'ts-user-joined-your-channel'
 		}
 	};
 
@@ -1814,7 +1864,10 @@ async function testWidget()
 		testData.description,
 		testData.attribute,
 		testData.username,
-		testData.message
+		testData.message,
+		'',
+		'',
+		testData.audio
 	);
 }
 
