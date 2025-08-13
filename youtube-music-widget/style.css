@@ -4,13 +4,16 @@
 
 * {
 	--corner-radius: 4px;
-	--album-art-size: 100px;
 	--bg-primary: #0f0f23;
 	--bg-secondary: #1a1a2e;
 	--bg-borders: #333366;
 	--accent-primary: #7aa3ff;
 	--text-primary: #cccccc;
 	--text-secondary: #888888;
+}
+
+:root {
+	--album-art-size: 100px;
 }
 
 body {

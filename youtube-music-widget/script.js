@@ -234,7 +234,7 @@ function resize() {
 // Handle compact mode or hideAlbumArt
 if (compactMode) {
 	// Compact mode setup
-	document.documentElement.style.setProperty('--album-art-size', '50px');
+	document.querySelector(':root').style.setProperty('--album-art-size', '50px');
 	document.getElementById("albumArtBox").style.display = "none";
 	document.getElementById("songInfoBox").style.width = "calc(100%)";
 	document.getElementById("mainContainer").style.maxWidth = "400px";

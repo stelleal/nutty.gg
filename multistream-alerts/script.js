@@ -1617,7 +1617,7 @@ function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attrib
 	// If any alerts are requested while the animation is playing, it should be added to the alert queue
 	if (widgetLocked) {
 		console.debug("Animation is progress, added alert to queue");
-		let data = { platform: platform, avatarURL: avatarURL, headerText: headerText, descriptionText: descriptionText, attributeText: attributeText, username: username, message: message, sbAction: sbAction, sbData: sbData};
+		let data = { platform: platform, avatarURL: avatarURL, headerText: headerText, descriptionText: descriptionText, attributeText: attributeText, username: username, message: message, sbAction: sbAction, sbData: sbData, soundFile: soundFile};
 		alertQueue.push(data);
 		return;
 	}
@@ -1727,7 +1727,7 @@ function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attrib
 					if (alertQueue.length > 0) {
 						console.debug("Pulling next alert from the queue");
 						let data = alertQueue.shift();
-						UpdateAlertBox(data.platform, data.avatarURL, data.headerText, data.descriptionText, data.attributeText, data.username, data.message, data.sbAction, data.sbData);
+						UpdateAlertBox(data.platform, data.avatarURL, data.headerText, data.descriptionText, data.attributeText, data.username, data.message, data.sbAction, data.sbData, data.soundFile);
 					}
 				}, 1000);
 			}, hideAfter * 1000);	
@@ -1751,7 +1751,7 @@ function UpdateAlertBox(platform, avatarURL, headerText, descriptionText, attrib
 				if (alertQueue.length > 0) {
 					console.debug("Pulling next alert from the queue");
 					let data = alertQueue.shift();
-					UpdateAlertBox(data.platform, data.avatarURL, data.headerText, data.descriptionText, data.attributeText, data.username, data.message, data.sbAction, data.sbData);
+					UpdateAlertBox(data.platform, data.avatarURL, data.headerText, data.descriptionText, data.attributeText, data.username, data.message, data.sbAction, data.sbData, data.soundFile);
 				}
 			}, 1000);
 		}
