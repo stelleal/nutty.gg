@@ -21,7 +21,6 @@ Each widget follows a consistent structure:
 - **APIs**: 
   - Streamer.bot WebSocket connections for real-time events
   - YouTube Music Desktop App API (port 9863)
-  - Spotify Web API
   - Various streaming platform APIs
 - **Hosting**: GitHub Pages with custom domain `widgets.zinphes.com`
 
@@ -40,7 +39,7 @@ Use `test-preview.html` for local testing of widgets with placeholder content.
 ### Widget Configuration
 Most widgets use URL parameters for configuration:
 - `?address=127.0.0.1&port=8080` - Streamer.bot connection
-- `?token=...` - Authentication tokens (YouTube Music, Spotify)
+- `?token=...` - Authentication tokens (YouTube Music)
 - `?compact` - Enable compact mode (YouTube Music widget)
 - `?crtEffect` - Enable CRT scanlines and flicker effects
 - `?test` - Enable test mode with placeholder data
@@ -53,15 +52,7 @@ Most widgets use URL parameters for configuration:
   - Single widget supports both standard and compact modes via `?compact` parameter
   - Standard mode: Full layout with album art
   - Compact mode: Condensed layout without album art
-- **Spotify**: Uses OAuth flow with client ID/secret configuration
-- Both have standard and compact versions
 
-**IMPORTANT - DISABLED WIDGETS**: 
-The following widgets are DISABLED and must NOT be modified under any circumstances:
-- `apple-music-widget`
-- `apple-music-widget-compact`
-- `spotify-widget` 
-- `spotify-widget-compact`
 
 ### Stream Alerts
 - **multistream-alerts**: Handles follows, subs, donations across platforms with platform-specific styling
