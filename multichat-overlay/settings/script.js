@@ -20,4 +20,6 @@ console.debug("Base URL: " + baseURL);
 console.debug("Settings JSON: " + settingsJSON);
 console.debug("Widget URL: " + widgetURL);
 
-widgetContainer.src = settingsPageURL + settingsJSON + widgetURL;
+let builderPath = settingsPageURL;
+if (!builderPath.endsWith('/')) builderPath += '/';
+widgetContainer.src = builderPath + settingsJSON + widgetURL;
