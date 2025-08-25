@@ -29,11 +29,11 @@ const showBadges = GetBooleanParam("showBadges", true);
 const showPronouns = GetBooleanParam("showPronouns", true);
 const showUsername = GetBooleanParam("showUsername", true);
 const showMessage = GetBooleanParam("showMessage", true);
-const font = urlParams.get("font") || "";
+const font = urlParams.get("font") || "JetBrains Mono, monospace";
 const fontSize = urlParams.get("fontSize") || "30";
 const lineSpacing = urlParams.get("lineSpacing") || "1.7";
 const useChatBubbles = GetBooleanParam("useChatBubbles", false);
-const bubbleColor = urlParams.get("bubbleColor") || "#000000";
+const bubbleColor = urlParams.get("bubbleColor") || "#1a1a2e";
 const bubbleOpacity = urlParams.get("bubbleOpacity") || "0.9";
 const background = urlParams.get("background") || "#000000";
 const opacity = urlParams.get("opacity") || "0";
@@ -2775,6 +2775,7 @@ function GetIntParam(paramName, defaultValue) {
 	return intValue;
 }
 
+// TODO: passar sistema AM/PM para 24h
 function GetCurrentTimeFormatted() {
 	const now = new Date();
 	let hours = now.getHours();

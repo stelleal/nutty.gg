@@ -61,7 +61,7 @@
 			"label": "Font",
 			"description": "",
 			"type": "text",
-			"defaultValue": "",
+			"defaultValue": "JetBrains Mono, monospace",
 			"group": "Appearance"
 		},
 		{
@@ -97,7 +97,7 @@
 			"label": "Bubble Color",
 			"description": "",
 			"type": "color",
-			"defaultValue": "#1d1d1d",
+			"defaultValue": "#1a1a2e",
 			"showIf": "useChatBubbles",
 			"group": "Appearance"
 		},
